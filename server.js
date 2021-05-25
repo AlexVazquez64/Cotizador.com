@@ -36,7 +36,7 @@ app.get("/", (req, res) => {
 
 // Routes
 // using as middleware
-app.use( '/api/clientes', require( './src/routes/cliente.routes' ) );
+app.use( 'api/clientes', require( './src/routes/cliente.routes' ) );
 
 app.use( '/api/articulos', require( './src/routes/articulo.routes' ) );
 

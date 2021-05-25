@@ -7,7 +7,7 @@ const { db } = require('./src/models/index');
 // create express app
 const app = express();
 
-app.use(cors());
+// app.use(cors());
 
 // Setup server port
 const port = process.env.PORT || 5000;
@@ -30,8 +30,6 @@ db.sequelize.sync();
 // simple route
 app.get("/", (req, res) => {
   res.json({ message: "Welcome to 'Cotizador' application." });
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 });
 
 // Routes

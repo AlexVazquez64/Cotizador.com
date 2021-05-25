@@ -35,7 +35,7 @@ app.get("/", (req, res) => {
 
 // Routes
 // using as middleware
-header('Access-Control-Allow-Origin: *');
+
 app.use( '/api/clientes', require( './src/routes/cliente.routes' ) );
 
 app.use( '/api/articulos', require( './src/routes/articulo.routes' ) );

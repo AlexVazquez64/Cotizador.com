@@ -8,9 +8,6 @@ router.post( "/", detalle.create );
 // Retrieve all Detalle
 router.get( "/", detalle.findAll );
 
-// // Retrieve all published Detalle
-// // router.get("/published", usuario.findAllPublished);
-
 // Retrieve a single Detalle with id
 router.get( "/:id", detalle.findOne );
 

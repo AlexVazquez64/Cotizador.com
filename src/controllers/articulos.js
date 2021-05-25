@@ -81,11 +81,18 @@ exports.findAll = async(req, res = response) => {
 
 // Find a single User with an id
 exports.findOne = async(req, res = response) => {
-  const id = req.params.id;
+  const articulo_id = req.params.articulo_id;
 
   try {
 
-    const respuesta = await Articulos.findByPk(id);
+    const respuesta = await Articulos.findOne(
+      {
+        where: {
+          articulo_id
+        },
+        order: [ [ 'createdAt', 'DESC' ]]
+      }
+    );
 
     const { nombre, email } = respuesta;
 

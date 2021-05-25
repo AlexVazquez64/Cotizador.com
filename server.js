@@ -18,18 +18,20 @@ app.use(bodyParser.json());
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// db.sequelize.sync();
+db.sequelize.sync();
 
 // // drop the table if it already exists
 
-db.sequelize.sync({ force: true }).then(() => {
-  console.log("Drop and re-sync db.");
-});
+// db.sequelize.sync({ force: true }).then(() => {
+//   console.log("Drop and re-sync db.");
+// });
 
 // define a root route
 // simple route
 app.get("/", (req, res) => {
   res.json({ message: "Welcome to 'Cotizador' application." });
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 });
 
 // Routes
@@ -46,3 +48,6 @@ app.use( '/api/detalles', require( './src/routes/detalles.routes' ) )
 app.listen(port, () => {
   console.log(`Server is listening on port ${port}`);
 });
+
+
+// createPDF();

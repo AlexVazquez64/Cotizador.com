@@ -1,7 +1,14 @@
 const { response } = require( 'express' );
+
 const { db } = require( '../models/index' );
+const { createPDF } = require('../helpers/pdf');
+
+
 
 const Detalles = db.detalles;
+const Cotizaciones = db.cotizaciones;
+const Clientes = db.clientes;
+const Articulos = db.articulos;
 const Op = db.Sequelize.Op;
 
 // Create and Save a new Detalle
@@ -32,8 +39,46 @@ exports.create = async( req, res = response ) => {
 
     Detalle = new Detalles( req.body );
 
+    console.log('Detalle del req.body')
+    console.log(Detalle)
+
     // Save Detalle in the database
-    await Detalles.create( data_detalle );
+    const detalleResp = await Detalles.create( data_detalle );
+
+    console.log(detalleResp)
+
+    const data_cotizacion = await Cotizaciones.findOne(
+      {
+        id: data_detalle.cotizacion_id,
+        where: {
+          //your where conditions, or without them if you need ANY entry
+          id: data_detalle.cotizacion_id,
+        },
+        order: [ [ 'createdAt', 'DESC' ]]
+      }
+    );
+
+    const data_cliente = await Clientes.findOne(
+      {
+        id: data_cotizacion.cliente_id
+      }
+    )
+
+
+    const sameDetalle = await Detalles.findAll({cotizacion_id})
+
+    // const articulos = await Articulos.findOne({articulo_id})
+
+    // console.log('articulos')
+    // console.log(articulos)
+
+    createPDF(
+      data_cliente,
+      data_cotizacion,
+      sameDetalle,
+      // articulos
+
+    );
 
     res.status( 200 ).json({
       ok: true,
@@ -76,27 +121,63 @@ exports.findAll = async(req, res = response) => {
 
 };
 
-// Find a single Detalle with an id
-exports.findOne = async( req, res = response ) => {
-  const id = req.params.id;
+// Retrieve all Detalle from the database.
+exports.findOne = async(req, res = response) => {
+
+  const cotizacion_id = req.params.cotizacion_id;
 
   try {
-
-    const respuesta = await Detalles.findByPk( id );
+    
+    const respuesta = await Detalles.findOne(
+      
+      {
+        where: {
+          cotizacion_id
+        },
+        order: [ [ 'createdAt', 'DESC' ]]
+      }
+    );
 
     res.status( 200 ).json({
       ok: true,
-      Detalle: respuesta
-    })
-
+      Detalles: {
+        values: respuesta
+      }
+      
+    });
   } catch ( error ) {
-    res.status( 500 ).send({
+    res.status( 500 ).json({
       ok: false,
-      message: "Error al traer al Detalle con el id = " + id,
-      error
+      message:
+        error.message || "Algún error ocurrió al momento de traer los Detalles."
     });
   }
+
 };
+
+// // Find a single Detalle with an id
+// exports.findOne = async( req, res = response ) => {
+//   const id = req.params.id;
+
+//   console.log(req.params)
+
+//   try {
+
+//     const respuesta = await Detalles.findByPk( id );
+
+//     res.status( 200 ).json({
+//       ok: true,
+//       Detalle: respuesta
+//     })
+
+//   } catch ( error ) {
+//     res.status( 500 ).send({
+//       ok: false,
+//       message: "Error al traer al Detalle con el id = " + id,
+//       error
+//     });
+//   }
+// };
 
 // Update a Detalle by the id in the request
 exports.update = async( req, res = response ) => {

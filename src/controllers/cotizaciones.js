@@ -1,4 +1,5 @@
 const { response } = require( 'express' );
+
 const { db } = require( '../models/index' );
 
 const Cotizaciones = db.cotizaciones;
@@ -22,6 +23,8 @@ exports.create = async(req, res = response) => {
 
     // Save User in the database
     await Cotizaciones.create( data_cotizacion );
+
+    
 
     res.status( 200 ).json({
       ok: true,
@@ -70,18 +73,25 @@ exports.findAll = async( req, res = response ) => {
 exports.findOne = async( req, res = response ) => {
   const id = req.params.id;
 
+  console.log(id)
+
   try {
 
-    const respuesta = await Cotizaciones.findByPk({
-      where: {
-        //your where conditions, or without them if you need ANY entry
-      },
-      order: [ [ 'createdAt', 'DESC' ]]
-    });
+    const respuesta = await Cotizaciones.findByPk(
+      id,
+      // {
+      //   where: {
+      //     //your where conditions, or without them if you need ANY entry
+      //     id
+      //   },
+      //   order: [ [ 'createdAt', 'DESC' ]]
+      // }
+    );
 
     // const { nombre, email } = respuesta;
 
-    console.log( respuesta )
+    // console.log( respuesta )
+
     res.status( 200 ).json({
       ok: true,
       cotizacion: {

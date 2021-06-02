@@ -1,12 +1,104 @@
 const { response } = require( 'express' );
+const fs = require('fs');
+
+const { createPDF } = require('../helpers/pdf');
+const { sendEmail } = require('../helpers/sendEmail');
 
 const { db } = require( '../models/index' );
 
 const Cotizaciones = db.cotizaciones;
+const Detalles = db.detalles;
+const Clientes =  db.clientes;
 // const Op = db.Sequelize.Op;
 
+let tempFile;
+
+exports.openCotizacionPDF = async( req, res = response ) => {
+
+  try {
+
+    const { id } = res.req.params;
+
+    const cotizacion = await Cotizaciones.findByPk( id );
+
+    const data_cotizacion = cotizacion.dataValues;
+
+    const cliente = await Clientes.findByPk(data_cotizacion.cliente_id);
+
+    const data_cliente = cliente.dataValues;
+
+    const detalles = await Detalles.findAll({
+      where: {
+        cotizacion_id: id
+      }
+    });
+
+    tempFile = await createPDF( data_cliente, data_cotizacion, detalles );
+
+    // This line opens the file as a readable stream
+    var readStream = fs.createReadStream(tempFile);
+
+    // This will wait until we know the readable stream is actually valid before piping
+    readStream.on( 'open', function () {
+      // This just pipes the read stream to the response object (which goes to the client)
+      readStream.pipe( res );
+    });
+
+    // This catches any errors that happen while creating the readable stream (usually invalid names)
+    readStream.on( 'error', function( err ) {
+      res.end( err );
+    });
+
+  } catch ( error ) {
+    console.log( error )
+  }
+}
+
+exports.sendCotizacionPDF = async( req, res = response ) => {
+
+  try {
+
+    const { id } = res.req.params;
+
+    const cotizacion = await Cotizaciones.findByPk( id );
+
+    const data_cotizacion = cotizacion.dataValues;
+
+    const cliente = await Clientes.findByPk( data_cotizacion.cliente_id );
+
+    const data_cliente = cliente.dataValues;
+
+    const detalles = await Detalles.findAll({
+      where: {
+        cotizacion_id: id
+      }
+    });
+
+    tempFile = await createPDF( data_cliente, data_cotizacion, detalles );
+
+    // This line opens the file as a readable stream
+    var readStream = fs.createReadStream(tempFile);
+
+    // This will wait until we know the readable stream is actually valid before piping
+    readStream.on( 'open', function () {
+      // This just pipes the read stream to the response object (which goes to the client)
+      readStream.pipe( res );
+    });
+
+    // This catches any errors that happen while creating the readable stream (usually invalid names)
+    readStream.on( 'error', function( err ) {
+      res.end( err );
+    });
+
+    await sendEmail(data_cliente, tempFile);
+
+  } catch ( error ) {
+    console.log( error )
+  }
+}
+
 // Create and Save a new Cotizaciones
-exports.create = async(req, res = response) => {
+exports.create = async( req, res = response ) => {
 
   // Create a Cliente
   const data_cotizacion = {
@@ -23,8 +115,6 @@ exports.create = async(req, res = response) => {
 
     // Save User in the database
     await Cotizaciones.create( data_cotizacion );
-
-    
 
     res.status( 200 ).json({
       ok: true,
@@ -50,8 +140,6 @@ exports.findAll = async( req, res = response ) => {
     
     const respuesta = await Cotizaciones.findAll();
 
-    console.log( respuesta )
-
     res.status( 200 ).json({
       ok: true,
       cotizacion: {
@@ -73,24 +161,11 @@ exports.findAll = async( req, res = response ) => {
 exports.findOne = async( req, res = response ) => {
   const id = req.params.id;
 
-  console.log(id)
-
   try {
 
     const respuesta = await Cotizaciones.findByPk(
       id,
-      // {
-      //   where: {
-      //     //your where conditions, or without them if you need ANY entry
-      //     id
-      //   },
-      //   order: [ [ 'createdAt', 'DESC' ]]
-      // }
     );
-
-    // const { nombre, email } = respuesta;
-
-    // console.log( respuesta )
 
     res.status( 200 ).json({
       ok: true,
@@ -136,7 +211,7 @@ exports.update = async( req, res = response ) => {
 };
 
 // Delete a User with the specified id in the request
-exports.delete = async( req, res ) => {
+exports.delete = async( req, res = response ) => {
 
   const id = req.params.id;
 
@@ -145,16 +220,17 @@ exports.delete = async( req, res ) => {
     const respuesta = await Cotizaciones.destroy({
       where: { id: id }
     });
-    
-    if ( respuesta == 1 ) {
+
+    if ( respuesta === 1 ) {
       res.send({
         ok: true,
         message: "La cotización se ha borrado exitosamente!"
       });
+      fs.unlinkSync( id + '.pdf' )
     } else {
       res.send({
         ok: false,
-        message: `No se pudo borrar la cotización con el id = ${id}. Puede que no se encuentre!`
+        message: `No se pudo borrar la cotización con el id = ${ id }. Puede que no se encuentre!`
       });
     }
 

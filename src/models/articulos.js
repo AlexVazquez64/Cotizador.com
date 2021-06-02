@@ -8,18 +8,19 @@ module.exports = (sequelize, Sequelize) => {
       autoIncrement: true
     },
     nombre: {
-      type: Sequelize.STRING
+      type: Sequelize.STRING,
+      required: true,
+      allowNull: false,
     },
     descripcion: {
-      type: Sequelize.STRING
+      type: Sequelize.STRING,
+      required: true,
+      allowNull: false,
     },
     unidad_venta: {
       type: Sequelize.STRING
     },
     tipo_articulo: {
-      type: Sequelize.STRING
-    },
-    descripcion_larga: {
       type: Sequelize.STRING
     },
     precio_unitario: {

@@ -29,7 +29,8 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.STRING
     },
     descuento: {
-      type: Sequelize.DOUBLE
+      type: Sequelize.DOUBLE,
+      allowNull: true,
     }
   });
 

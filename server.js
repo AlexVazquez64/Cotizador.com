@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+
 // const dbConnection = require('./database/config');
 const cors = require('cors');
 const { db } = require('./src/models/index');
@@ -30,7 +31,6 @@ db.sequelize.sync();
 // simple route
 app.get("/", (req, res) => {
   res.json({ message: "Welcome to 'Cotizador' application." });
-  
 });
 
 // Routes
@@ -40,9 +40,11 @@ app.use( '/api/clientes', require( './src/routes/cliente.routes' ) );
 
 app.use( '/api/articulos', require( './src/routes/articulo.routes' ) );
 
-app.use( '/api/cotizaciones', require( './src/routes/cotizacion.routes' ) )
+app.use( '/api/cotizaciones', require( './src/routes/cotizacion.routes' ) );
 
-app.use( '/api/detalles', require( './src/routes/detalles.routes' ) )
+app.use( '/api/sendMail', require( './src/routes/cotizacion.routes' ) );
+
+app.use( '/api/detalles', require( './src/routes/detalles.routes' ) );
 
 // listen for requests
 app.listen(port, () => {

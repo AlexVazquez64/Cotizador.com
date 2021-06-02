@@ -13,7 +13,6 @@ exports.create = async(req, res = response) => {
     descripcion,
     unidad_venta,
     tipo_articulo,
-    descripcion_larga,
     precio_unitario,
     costo,
 

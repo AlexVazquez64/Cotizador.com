@@ -6,7 +6,7 @@ const cotizacion = require( '../controllers/cotizaciones' );
 router.post( '/', cotizacion.create );
 
 // Open PDF
-router.get( `/:id`, cotizacion.openCotizacionPDF );
+router.get( `/cotizacion-:id-:createdAt`, cotizacion.openCotizacionPDF );
 
 router.get( '/cotizaciones/:id', cotizacion.sendCotizacionPDF );
 

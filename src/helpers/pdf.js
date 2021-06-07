@@ -16,7 +16,7 @@ exports.createPDF = async ( cliente, cotizacion, detalle ) => {
   // Pipe its output somewhere, like to a file or HTTP response
   // See below for browser usage
 
-  tempFile = `${ cotizacion.id.toString() }.pdf`;
+  tempFile = `cotizacion-${ cotizacion.id.toString() }-${ moment( cotizacion.createdAt ).format( 'DD[-]MMM[-]YY' ) }.pdf`;
 
   doc.pipe( fs.createWriteStream( tempFile ) );
 

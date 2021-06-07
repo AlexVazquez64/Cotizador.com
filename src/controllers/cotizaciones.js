@@ -23,7 +23,7 @@ exports.openCotizacionPDF = async( req, res = response ) => {
 
     const data_cotizacion = cotizacion.dataValues;
 
-    const cliente = await Clientes.findByPk(data_cotizacion.cliente_id);
+    const cliente = await Clientes.findByPk( data_cotizacion.cliente_id  );
 
     const data_cliente = cliente.dataValues;
 
@@ -36,7 +36,7 @@ exports.openCotizacionPDF = async( req, res = response ) => {
     tempFile = await createPDF( data_cliente, data_cotizacion, detalles );
 
     // This line opens the file as a readable stream
-    var readStream = fs.createReadStream(tempFile);
+    var readStream = fs.createReadStream( tempFile );
 
     // This will wait until we know the readable stream is actually valid before piping
     readStream.on( 'open', function () {

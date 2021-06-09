@@ -9,13 +9,13 @@ exports.sendEmail = async ( cliente, file ) => {
     service: 'outlook',
     secure: false, // true for 465, false for other ports
     auth: {
-      user: 'correo@outlook.com', // generated ethereal user
-      pass: 'password', // generated ethereal password
+      user: 'alejandrovazquezc@outlook.com', // generated ethereal user
+      pass: 'pedropiedra_18', // generated ethereal password
     },
   });
 
   var mailOptions = {
-    from: '"RCI" <correo@outlook.com>',
+    from: '"RCI" <alejandrovazquezc@outlook.com>',
     to: `${cliente.email}`,
     subject: 'Cotización de RCI',
     text: `Hola ${cliente.nombre}, te envío la cotización, seguimos en contacto, saludos.`,

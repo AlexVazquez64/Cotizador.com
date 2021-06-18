@@ -194,9 +194,14 @@ exports.createPDF = async ( cliente, cotizacion, detalle ) => {
     .fillAndStroke( '#01588D', '#01588D' )
 
   doc
+  .fontSize( 18 )
+  .fillColor( '#FFF' )
+  .text( 'COTIZACIÓN', 40, 280 )
+
+  doc
     .fontSize( 18 )
     .fillColor( '#FFF' )
-    .text( 'Descripcion', 40, 280 )
+    .text( 'Descripcion', 100, 280 )
 
   // Tabla
   // Header

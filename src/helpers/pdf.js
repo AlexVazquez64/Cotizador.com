@@ -141,7 +141,7 @@ exports.createPDF = async ( cliente, cotizacion, detalle ) => {
   doc
     .fontSize( 14 )
     .fillColor( '#FFF' )
-    .text( 'COTIZACIÓN', 390, 110 )
+    .text( 'COTIZACIÓN', 370, 110 )
 
   doc
     .fontSize( 14 )

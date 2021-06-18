@@ -141,7 +141,7 @@ exports.createPDF = async ( cliente, cotizacion, detalle ) => {
   doc
     .fontSize( 14 )
     .fillColor( '#FFF' )
-    .text( 'Folio', 390, 110 )
+    .text( 'COTIZACIÓN', 390, 110 )
 
   doc
     .fontSize( 14 )
@@ -194,14 +194,9 @@ exports.createPDF = async ( cliente, cotizacion, detalle ) => {
     .fillAndStroke( '#01588D', '#01588D' )
 
   doc
-  .fontSize( 18 )
-  .fillColor( '#FFF' )
-  .text( 'COTIZACIÓN', 40, 280 )
-
-  doc
     .fontSize( 18 )
     .fillColor( '#FFF' )
-    .text( 'Descripcion', 250, 280 )
+    .text( 'Descripcion', 40, 280 )
 
   // Tabla
   // Header

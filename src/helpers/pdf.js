@@ -310,7 +310,7 @@ exports.createPDF = async ( cliente, cotizacion, detalle ) => {
 
   doc
     .fontSize( 14 )
-    .text( 'Importe', 490, 390 )
+    .text( 'Importe', 470, 390 )
 
   const detallesArticuloimporte = detalles.map( detalle => detalle.importe )
 
@@ -325,11 +325,11 @@ exports.createPDF = async ( cliente, cotizacion, detalle ) => {
       if ( detallesArticuloimporte[ 0 ] ) {
 
         doc
-          .text( `$${ new Intl.NumberFormat().format( element ) }`, 490, docY )
+          .text( `$${ new Intl.NumberFormat().format( element ) }`, 470, docY )
         
       } else {
         doc
-          .text( `$${ new Intl.NumberFormat().format( element ) }`, 490, docY + 15 )
+          .text( `$${ new Intl.NumberFormat().format( element ) }`, 470, docY + 15 )
       }
     } 
     docY += 15
@@ -364,7 +364,7 @@ exports.createPDF = async ( cliente, cotizacion, detalle ) => {
 
   doc
     .fillColor( '#000' )
-    .text( `$${ new Intl.NumberFormat().format( subtotal ) }`, 490, 640 )
+    .text( `$${ new Intl.NumberFormat().format( subtotal ) }`, 470, 640 )
 
   // IVA
   doc
@@ -379,7 +379,7 @@ exports.createPDF = async ( cliente, cotizacion, detalle ) => {
 
   doc
     .fillColor( '#000' )
-    .text( `${ 0 }`, 490, 670 )
+    .text( `${ 0 }`, 470, 670 )
 
   // TOTAL
   doc
@@ -394,7 +394,7 @@ exports.createPDF = async ( cliente, cotizacion, detalle ) => {
 
   doc
     .fillColor( '#000' )
-    .text( `$${ new Intl.NumberFormat().format( subtotal ) }`, 490, 700 )
+    .text( `$${ new Intl.NumberFormat().format( subtotal ) }`, 470, 700 )
 
   // Finalize PDF file
   doc.end();

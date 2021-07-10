@@ -6,11 +6,11 @@ exports.sendEmail = async ( cliente, file ) => {
 
   // create reusable transporter object using the default SMTP transport
   let transporter = nodemailer.createTransport({
-    service: 'outlook',
-    secure: false, // true for 465, false for other ports
+    service: 'mail.redcontraincendio.com',
+    secure: true, // true for 465, false for other ports
     auth: {
-      user: 'alejandrovazquezc@outlook.com', // generated ethereal user
-      pass: 'pedropiedra_18', // generated ethereal password
+      user: 'cotizacion@redcontraincendio.com', // generated ethereal user
+      pass: 'cotizacion1#', // generated ethereal password
     },
   });
 

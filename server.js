@@ -45,6 +45,8 @@ app.use( '/api/sendMail', require( './src/routes/cotizacion.routes' ) );
 
 app.use( '/api/detalles', require( './src/routes/detalles.routes' ) );
 
+app.use( '/api/auth', require( './src/routes/auth' ) );
+
 // listen for requests
 app.listen(port, () => {
   console.log(`Server is listening on port ${ port }`);

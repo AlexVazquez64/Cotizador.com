@@ -1,7 +1,7 @@
 const { response } = require( 'express' );
 const fs = require('fs');
 
-const { createPDF } = require('../helpers/pdf');
+const { createPDF } = require('../helpers/pdfNew');
 const { sendEmail } = require('../helpers/sendEmail');
 
 const { db } = require( '../models/index' );
@@ -104,6 +104,7 @@ exports.create = async( req, res = response ) => {
   const data_cotizacion = {
     folio,
     cliente_id,
+    cliente_nombre,
     descripcion,
     fecha_validez,
 

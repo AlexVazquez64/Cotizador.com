@@ -34,6 +34,7 @@ db.clientes = require('./cliente')(sequelize, Sequelize);
 db.articulos = require('./articulos')(sequelize, Sequelize);
 db.cotizaciones = require('./cotizaciones')(sequelize, Sequelize);
 db.detalles = require('./detalles')(sequelize, Sequelize);
+db.usuarios = require('./usuarios')(sequelize, Sequelize);
 
 module.exports = {
   db

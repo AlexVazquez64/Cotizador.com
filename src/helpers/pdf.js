@@ -34,6 +34,8 @@ exports.createPDF = async ( cliente, cotizacion, detalle ) => {
       }
     );
 
+  
+
   // Datos Cliente
 
   // Cuadro datos cliente
@@ -395,6 +397,16 @@ exports.createPDF = async ( cliente, cotizacion, detalle ) => {
   doc
     .fillColor( '#000' )
     .text( `$${ new Intl.NumberFormat().format( subtotal ) }`, 470, 700 )
+
+  doc
+    .opacity(.2)
+    .image( 'src/images/document/marca-agua.jpeg', 0, 0, 
+      {
+        width: 612,
+        height: 762,
+      }
+    );
+    
 
   // Finalize PDF file
   doc.end();

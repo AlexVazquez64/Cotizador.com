@@ -22,8 +22,11 @@ module.exports = (sequelize, Sequelize) => {
       allowNull: false,
       onDelete: 'CASCADE',
     },
-    descripcion: {
+    cliente_nombre: {
       type: Sequelize.STRING
+    },
+    descripcion: {
+      type: Sequelize.STRING(1234)
     },
     fecha_validez: {
       type: Sequelize.DATEONLY,

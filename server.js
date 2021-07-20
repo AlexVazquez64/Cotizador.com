@@ -1,13 +1,15 @@
 const express = require('express');
-const cors = require('cors');
 
 // const dbConnection = require('./database/config');
+const cors = require('cors');
 const { db } = require('./src/models/index');
 
 // create express app
 const app = express();
 
 app.use(cors());
+
+header('Access-Control-Allow-Origin: *');
 
 // Setup server port
 const port = process.env.PORT || 5000;

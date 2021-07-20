@@ -9,8 +9,6 @@ const app = express();
 
 app.use(cors());
 
-header('Access-Control-Allow-Origin: *');
-
 // Setup server port
 const port = process.env.PORT || 5000;
 

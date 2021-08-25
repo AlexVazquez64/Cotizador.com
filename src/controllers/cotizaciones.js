@@ -29,8 +29,8 @@ exports.openCotizacionPDF = async( req, res = response ) => {
 
     const detalles = await Detalles.findAll({
       where: {
-        cotizacion_id: id
-      }
+        cotizacion_id: id,
+      },
     });
 
     tempFile = await createPDF( data_cliente, data_cotizacion, detalles );
@@ -97,30 +97,33 @@ exports.sendCotizacionPDF = async( req, res = response ) => {
   }
 }
 
-// Create and Save a new Cotizaciones
+// Crear una nueva 'Cotización'
 exports.create = async( req, res = response ) => {
 
-  // Create a Cliente
-  const data_cotizacion = {
+  // Desestructurar el Docto de 'Cotización' recibido del body
+  const datos_cotizacion = {
     folio,
     cliente_id,
     cliente_nombre,
     descripcion,
     fecha_validez,
-
+    valido_hasta,
   } = req.body;
+
+  console.log('Datos cotizacion');
+  console.log(datos_cotizacion)
 
   try {
 
     cotizacion = new Cotizaciones( req.body );
 
-    // Save User in the database
-    await Cotizaciones.create( data_cotizacion );
+    // Guarda la Cotización en la BD
+    await Cotizaciones.create( datos_cotizacion );
 
     res.status( 200 ).json({
       ok: true,
       cotizacion: {
-        data_cotizacion
+        cotizacion: datos_cotizacion
       },
       message: 'Se ha creado la Cotizacion exitosamente!'
     });
@@ -134,12 +137,14 @@ exports.create = async( req, res = response ) => {
   }
 };
 
-// Retrieve all Users from the database.
+// Traer todas las Cotizaciones
 exports.findAll = async( req, res = response ) => {
   
   try {
     
     const respuesta = await Cotizaciones.findAll();
+
+    console.log(respuesta[0].dataValues)
 
     res.status( 200 ).json({
       ok: true,
@@ -158,7 +163,7 @@ exports.findAll = async( req, res = response ) => {
 
 };
 
-// Find a single User with an id
+// Traer solo una Cotización con el id
 exports.findOne = async( req, res = response ) => {
   const id = req.params.id;
 
@@ -184,18 +189,22 @@ exports.findOne = async( req, res = response ) => {
   }
 };
 
-// Update a User by the id in the request
+// Actualiza una Cotización por id
 exports.update = async( req, res = response ) => {
   const id = req.params.id;
 
   try {
     const respuesta = await Cotizaciones.update( req.body, {
       where: { id: id }
-    })
+    });
+
     if ( respuesta == 1 ) {
       res.send({
         ok: true,
-        message: "La cotización fue actualizada correctamente!"
+        message: "La cotización fue actualizada correctamente!",
+        cotizacion: {
+          respuesta
+        }
       });
     } else {
       res.send({
@@ -211,7 +220,7 @@ exports.update = async( req, res = response ) => {
   }
 };
 
-// Delete a User with the specified id in the request
+// Elimina una Cotización por id
 exports.delete = async( req, res = response ) => {
 
   const id = req.params.id;
@@ -225,8 +234,12 @@ exports.delete = async( req, res = response ) => {
     if ( respuesta === 1 ) {
       res.send({
         ok: true,
-        message: "La cotización se ha borrado exitosamente!"
+        message: "La cotización se ha borrado exitosamente!",
+        cotizacion: {
+          respuesta
+        }
       });
+      // Modicar nombre de archivo para borrar el Docto del sistema
       fs.unlinkSync( id + '.pdf' )
     } else {
       res.send({

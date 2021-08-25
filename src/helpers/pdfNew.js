@@ -5,6 +5,7 @@ const {
   db
 } = require('../models/index');
 const moment = require('moment');
+moment.locale('es')
 
 const Articulos = db.articulos;
 
@@ -26,226 +27,215 @@ exports.createPDF = async (cliente, cotizacion, detalle) => {
 
   doc
     .lineWidth(2.5)
-    .font('Times-Roman')
-
-  // Cajón Cotización
-  doc
-    .lineCap('round')
-    .rect(250, 8, 120, 20)
-    .fillAndStroke('#e3f4ff', '#e3f4ff')
-
 
   doc
-    .fontSize(20)
+    .font('Helvetica-Bold')
+    .fontSize(18)
     .fillColor('#000')
-    .text('COTIZACIÓN', 250, 10)
+    .text('COTIZACIÓN', 250, 15)
 
   doc
-    .image('src/images/document/rci-logo-ajustado_orig.jpg', 400, 15, {
-      width: 200,
-      height: 80,
+    .image('src/images/document/rci-logo-ajustado_orig.jpg', 320, 40, {
+      width: 270,
+      height: 100,
     });
 
-  // Cajón primer leyenda
+  // Texto 
   doc
-    .lineCap('round')
-    .rect(10, 10, 215, 80)
-    .fillAndStroke('#ededed', '#ededed')
-
-  doc
-    .fontSize(12)
-    .fillColor('#000')
-    .text('Red contra incendio', 15, 15)
-
-  doc
-    .text('Parlamento Real 716, Real Carolinas', 15, 27)
-
-  doc
-    .text('Chihuahua, Chihuahua 31136', 15, 39)
-
-  doc
-    .text('Teléfono: (614) 557 61 02, (614) 280 2593', 15, 51)
-
-  doc
-    .text('ricardo@redcontraincendio.com', 15, 63)
-
-  doc
-    .text('redcontraincendio.com', 15, 75)
-
-  // Cajón cliente, dirección
-  doc
-    .lineCap('round')
-    .rect(10, 100, 215, 30)
-    .fillAndStroke('#ffc2c2', '#ffc2c2')
-
-  doc
+    .font('Helvetica')
     .fontSize(10)
     .fillColor('#000')
-    .text(`${ cliente.nombre }`, 15, 105)
+    .text('Red contra incendio', 15, 27, {
+      align: 'left'
+    })
 
   doc
-    .text(`${ cliente.direccion }`, 15, 117)
-
-
-  doc
-    .lineCap('round')
-    .rect(10, 140, 585, 70)
-    .fillAndStroke('#ededed', '#ededed')
+    .text('Parlamento Real 716, Real Carolinas', 15, 39)
 
   doc
-    .fontSize(12)
+    .text('Chihuahua, Chihuahua 31136', 15, 51)
+
+  doc
+    .text('Teléfono: (614) 557 61 02, (614) 280 2593', 15, 63)
+
+  doc
+    .text('ricardo@redcontraincendio.com', 15, 75)
+
+  doc
+    .text('redcontraincendio.com', 15, 87)
+
+  // Datos Cliente
+
+  doc
     .fillColor('#000')
-    .text('Propuesta para realizar modificaciones al Sistema Contra Incendio, Sistema de Detección de Humo, Planta de Emergencia, Hidroneumatico o Mantenimiento de Edificio realizando las modificaciones de acuerdo a los estándares de la NFPA y NOM-002, y base a los estatutos de protección civil, todos los dispositivos mencionados en la siguiente cotización están aprobados y certificados para un desempeño óptimo.', 15, 155, {
+    .text(`${ cliente.nombre }`, 40, 117)
+
+  doc
+    .text(`${ cliente.direccion }`, 40, 129)
+
+  // Texto 2
+
+  doc
+    .fillColor('#000')
+    .text('Propuesta para realizar modificaciones al Sistema Contra Incendio, Sistema de Detección de Humo, Planta de Emergencia, Hidroneumatico o Mantenimiento de Edificio realizando las modificaciones de acuerdo a los estándares de la NFPA y NOM-002, y base a los estatutos de protección civil, todos los dispositivos mencionados en la siguiente cotización están aprobados y certificados para un desempeño óptimo.', 15, 150, {
       width: 585,
       height: 65,
     })
 
+  // Cuadro Datos Docto
+  doc
+    .lineWidth(1)
+    .lineCap('round')
+    .rect(30, 205, 560, 20)
+    .fillAndStroke('#c7c7c7', '#000')
+
+  // Cuadro de datos Docto que cambian
   doc
     .lineCap('round')
-    .rect(30, 225, 560, 25)
-    .fillAndStroke('#c7c7c7', '#000');
-
-
-  // cuadro rojo docto
-  doc
-    .lineCap('round')
-    .rect(30, 250, 560, 25)
-    .fillAndStroke('#ffc2c2', '#000')
+    .rect(30, 225, 560, 20)
 
   doc
-    .fontSize(14)
+    .font('Helvetica-Bold')
     .fillColor('#000')
-    .text('Número de cliente', 35, 230)
+    .text('Número de cliente', 50, 210)
 
   doc
-    .fontSize(14)
+    .font('Helvetica')
     .fillColor('#000')
-    .text(`${ cotizacion.cliente_id }`, 80, 260)
+    .text(`${ cotizacion.cliente_id }`, 80, 230)
 
   doc
     .lineCap('butt')
-    .moveTo(155, 225)
-    .lineTo(155, 275)
+    .moveTo(155, 205)
+    .lineTo(155, 245)
     .stroke();
 
   doc
-    .fontSize(14)
+    .font('Helvetica-Bold')
     .fillColor('#000')
-    .text('Número de Documento', 160, 230)
+    .text('Número de Documento', 175, 210)
 
   doc
-    .fontSize(14)
+    .font('Helvetica')
     .fillColor('#000')
-    .text(`${ cotizacion.folio }`, 220, 260)
+    .text(`${ cotizacion.folio }`, 220, 230)
 
   doc
     .lineCap('butt')
-    .moveTo(300, 225)
-    .lineTo(300, 275)
+    .moveTo(300, 205)
+    .lineTo(300, 245)
     .stroke();
 
   doc
-    .fontSize(14)
+    .font('Helvetica-Bold')
     .fillColor('#000')
-    .text('Página', 320, 230)
+    .text('Página', 320, 210)
 
   doc
-    .fontSize(14)
+    .font('Helvetica')
     .fillColor('#000')
-    .text(`1 / 1`, 330, 260)
+    .text(`1 / 1`, 330, 230)
 
   doc
     .lineCap('butt')
-    .moveTo(380, 225)
-    .lineTo(380, 275)
+    .moveTo(380, 205)
+    .lineTo(380, 245)
     .stroke();
 
   doc
-    .fontSize(14)
+    .font('Helvetica-Bold')
     .fillColor('#000')
-    .text('Fecha', 410, 230)
+    .text('Fecha', 410, 210)
 
   doc
-    .fontSize(14)
-    .text(`${ moment( cotizacion.createdAt ).format( 'DD[/]MMM[/]YY' ) }`, 400, 260)
+    .font('Helvetica')
+    .text(`${ moment( cotizacion.createdAt ).format( 'DD[/]MMM[/]YY' ) }`, 400, 230)
 
   doc
     .lineCap('butt')
-    .moveTo(470, 225)
-    .lineTo(470, 275)
+    .moveTo(470, 205)
+    .lineTo(470, 245)
     .stroke();
 
   doc
-    .fontSize(14)
+    .font('Helvetica-Bold')
     .fillColor('#000')
-    .text('Válido hasta', 490, 230, {
+    .text('Válido hasta', 490, 210, {
       width: '40px'
     })
 
   doc
-    .fontSize(14)
-    .text(`${ moment( cotizacion.fecha_validez ).format( 'DD[/]MMM[/]YY' ) }`, 500, 260, {
+    .font('Helvetica')
+    .text(`${ moment( cotizacion.fecha_validez ).format( 'DD[/]MMM[/]YY' ) }`, 500, 230, {
       width: '40px'
     })
 
+  // Tiempo de entrega
   doc
-    .lineCap('round')
-    .rect(30, 280, 560, 70)
-    .fillAndStroke('#ffc2c2', '#000')
-
-  doc
-    .fontSize(14)
+    .font('Helvetica-Bold')
     .fillColor('#000')
-    .text('Observaciones', 40, 290)
+    .text(`TIEMPO DE ENTREGA ${ cotizacion.valido_hasta } DIAS DESPUÉS DE OC`, 40, 255)
 
+  // Descripcion de cotizacion
   doc
-    .fontSize(12)
+    .font('Helvetica')
     .fillColor('#000')
-    .text(`${ cotizacion.descripcion }`, 40, 305, {
-      width: 560,
+    .text(`${ cotizacion.descripcion }`, 40, 270, {
+      width: 550,
       height: 65,
     })
 
+  // Cuadro Header Datos Docto Detalle
   doc
-    .fontSize(14)
-    .fillColor('#000')
-    .text('Tiempo de entrega:', 30, 360)
-
-  doc
+    .font('Helvetica-Bold')
     .lineCap('round')
-    .rect(145, 360, 100, 15)
-    .fillAndStroke('#ffc2c2')
-
-  doc
-    .fontSize(12)
-    .fillColor('#000')
-    .text(`${ fechaValidez.diff(fechaCreacion, 'days') } dias habiles`, 150, 362, {
-      width: 560,
-      height: 65,
-    })
-
-  doc
-    .lineCap('round')
-    .rect(30, 380, 560, 25)
+    .rect(30, 335, 560, 20)
     .fillAndStroke('#c7c7c7', '#000');
 
-  // Cuadro Rojo de Detalle
+
+  // Cuadro de datos Docto que cambian
   doc
     .lineCap('round')
-    .rect(30, 405, 560, 295)
-    .fillAndStroke('#ffc2c2', '#000');
+    .rect(30, 355, 560, 320)
+    .stroke('#000')
+
+  // Separacoòn -Articulo / Cantidad-
+  doc
+    .lineCap('butt')
+    .moveTo(340, 335)
+    .lineTo(340, 675)
+    .stroke();
+
+  // Separacoòn -Cantidad / Unidad-
+  doc
+    .lineCap('butt')
+    .moveTo(400, 335)
+    .lineTo(400, 675)
+    .stroke();
+
+  // Separacoòn -Unidad / Precio-
+  doc
+    .lineCap('butt')
+    .moveTo(450, 335)
+    .lineTo(450, 675)
+    .stroke();
+
+  // Separacoòn -Importe Total-
+  doc
+    .lineCap('butt')
+    .moveTo(520, 335)
+    .lineTo(520, 675)
+    .stroke();
 
   let docY = 420;
 
   const detallesArticuloCantidad = detalles.map(detalle => detalle.cantidad)
 
   doc
-    .font('Times-Bold')
-    .fontSize(12)
     .fillColor('#000')
-    .text('Cantidad', 310, 390)
+    .text('Cantidad', 350, 340)
 
-  docY = 410
+  docY = 360
   let banderaCantidad = true
 
   for (const cantidad in detallesArticuloCantidad) {
@@ -258,33 +248,33 @@ exports.createPDF = async (cliente, cotizacion, detalle) => {
         banderaCantidad = false
 
         doc
-          .text(`${ element }`, 350, docY, {
+          .font('Helvetica')
+          .text(`${ element }`, 370, docY, {
             width: '200px',
             align: 'right'
           })
 
       } else {
         doc
-          .text(`${ element }`, 350, docY + 60, {
+          .font('Helvetica')
+          .text(`${ element }`, 370, docY + 50, {
             width: '200px',
-            height: '500px',
             align: 'right'
           })
-        docY += 60
+        docY += 50
       }
     }
     docY += 15
   }
 
-  docY = 410;
+  docY = 360;
   let banderaArticulo = true
 
   doc
-    .font('Times-Bold')
-    .fontSize(12)
-    .text('Articulo', 40, 390)
+    .font('Helvetica-Bold')
+    .text('Articulo', 35, 340)
 
-  const detallesArticulo_articuloId = detalles.map(detalle => detalle.articulo_id)
+  let detallesArticulo_articuloId = detalles.map(detalle => detalle.articulo_id)
 
   for (articulo_id in detallesArticulo_articuloId) {
     if (detallesArticulo_articuloId.hasOwnProperty(articulo_id)) {
@@ -304,65 +294,76 @@ exports.createPDF = async (cliente, cotizacion, detalle) => {
       if (banderaArticulo) {
         banderaArticulo = false
         doc
-          .font('Times-Roman')
-          .text(`${ art }\n\n${ descripcion }`, 45, docY)
+          .font('Helvetica')
+          .text(`${ art }\n${ descripcion }`, 35, docY, {
+            width: 300,
+            height: 700
+          })
       } else {
         doc
-          .font('Times-Roman')
-          .text(`${ art }\n\n${ descripcion }`, 45, docY + 60)
-        docY += 60
+          .font('Helvetica')
+          .text(`${ art }\n${ descripcion }`, 35, docY + 50, {
+            width: 300,
+            height: 700
+          })
+        docY += 50
       }
     }
     console.log(docY)
     docY += 15
   }
-  const detallesArticuloUnidad = detalles.map(detalle => detalle.unidad)
 
-  // doc
-  //   .font('Times-Bold')
-  //   .fontSize(12)
-  //   .text('Unidad', 390, 390)
+  const detallesUnidadCantidad = detalles.map(detalle => detalle.unidad)
 
-  // docY = 410
-  // let banderaUnidad = true
+  console.log(detallesUnidadCantidad)
 
-  // for (const unidad in detallesArticuloUnidad) {
-  //   if (detallesArticuloUnidad.hasOwnProperty(unidad)) {
+  doc
+    .font('Helvetica-Bold')
+    .fillColor('#000')
+    .text('Unidad', 410, 340)
 
-  //     const element = detallesArticuloUnidad[unidad];
+  docY = 360
+  let banderaUnidad = true
 
-  //     if (banderaUnidad) {
+  detallesArticulo_articuloId = detalles.map(detalle => detalle.articulo_id)
 
-  //       banderaUnidad = false
+  for (articulo_id in detallesArticulo_articuloId) {
+    if (detallesArticulo_articuloId.hasOwnProperty(articulo_id)) {
 
-  //       doc
-  //         .text(`${ element }`, 370, docY, {
-  //           width: '200px',
-  //           align: 'right'
-  //         })
+      const id = detallesArticulo_articuloId[articulo_id];
 
-  //     } else {
-  //       doc
-  //         .text(`${ element }`, 370, docY + 60, {
-  //           width: '200px',
-  //           height: '500px',
-  //           align: 'right'
-  //         })
-  //       docY += 60
-  //     }
-  //   }
-  //   docY += 15
-  // }
+      const articulos = await Articulos.findAll({
+        where: {
+          id: id
+        }
+      });
+
+      const articulo = articulos.map(item => item.dataValues)
+      const unidad = articulo.map(item => item.unidad_venta)
+
+      if (banderaUnidad) {
+        banderaUnidad = false
+        doc
+          .font('Helvetica')
+          .text(`${ unidad }`, 420, docY)
+      } else {
+        doc
+          .font('Helvetica')
+          .text(`${ unidad }`, 420, docY + 50)
+        docY += 50
+      }
+    }
+    docY += 15
+  }
 
 
   doc
-    .font('Times-Bold')
-    .fontSize(12)
-    .text('Precio', 460, 390)
+    .font('Helvetica-Bold')
+    .text('Precio', 470, 340)
 
   const detallesPrecio_unitario = detalles.map(detalle => detalle.precio_unitario)
 
-  let docYPrecioUnitario = 410;
+  let docYPrecioUnitario = 360;
   let sumaPrecioUnitario = 0;
   let banderaPrecio = true
 
@@ -376,39 +377,37 @@ exports.createPDF = async (cliente, cotizacion, detalle) => {
         banderaPrecio = false
 
         doc
-          .text(`$${ new Intl.NumberFormat().format( element ) }`, 470, docYPrecioUnitario, {
-            width: '200px',
-            align: 'right'
+          .font('Helvetica')
+          .text(`$${ new Intl.NumberFormat().format( element ) }`, 460, docYPrecioUnitario, {
+            align: 'right',
+            width: '200px'
           })
+          
 
       } else {
         doc
-          .text(`$${ new Intl.NumberFormat().format( element ) }`, 470, docYPrecioUnitario + 60, {
+          .font('Helvetica')
+          .text(`$${ new Intl.NumberFormat().format( element ) }`, 460, docYPrecioUnitario + 50, {
             width: '200px',
-            height: '500px',
             align: 'right'
           })
-        docYPrecioUnitario += 60
+        docYPrecioUnitario += 50
       }
       sumaPrecioUnitario += element
     }
     docYPrecioUnitario += 15
   }
 
-  docY = 410;
+  docY = 360;
   let bandera = true
 
   doc
-    .font('Times-Bold')
-    .fontSize(12)
-    .text('Importe total', 515, 390, {
+    .font('Helvetica-Bold')
+    .text('Importe total', 525, 340, {
       width: '100px'
     })
 
   const detallesArticuloimporte = detalles.map(detalle => detalle.importe)
-
-  console.log('importe de cada artículo')
-  console.log(detallesArticuloimporte)
 
   for (const importe in detallesArticuloCantidad) {
     if (detallesArticuloimporte.hasOwnProperty(importe)) {
@@ -416,26 +415,22 @@ exports.createPDF = async (cliente, cotizacion, detalle) => {
       const element = detallesArticuloimporte[importe];
 
       if (bandera) {
-        console.log(detallesArticuloimporte[0] + 'detallesArticuloimporte')
 
-        console.log('object')
         bandera = false
 
         doc
-          .text(`$${ new Intl.NumberFormat().format( element ) }`, 540, docY, {
-            width: '200px',
-            height: '500px',
-            align: 'left'
+          .font('Helvetica')
+          .text(`$${ new Intl.NumberFormat().format( element ) }`, 530, docY, {
+            width: '200px'
           })
 
       } else {
         doc
-          .text(`$${ new Intl.NumberFormat().format( element ) }`, 560, docY + 60, {
-            width: '200px',
-            height: '500px',
-            align: 'left'
+          .font('Helvetica')
+          .text(`$${ new Intl.NumberFormat().format( element ) }`, 530, docY + 50, {
+            width: '200px'
           })
-        docY += 60
+        docY += 50
       }
     }
     docY += 15
@@ -447,31 +442,30 @@ exports.createPDF = async (cliente, cotizacion, detalle) => {
     subtotal += element
   });
 
-  // TOTAL
+  // TOTAL del DOCTO
   doc
-    .fontSize(14)
+    .font('Helvetica-Bold')
     .fillColor('#000')
-    .text('Importe total:', 300, 680, {
+    .text('Importe total:', 440, 680, {
       width: '100px',
     })
 
   doc
+    .font('Helvetica')
     .fillColor('#000')
-    .text(`$${ new Intl.NumberFormat().format( subtotal ) }`, 560, 680, {
+    .text(`$${ new Intl.NumberFormat().format( subtotal ) }`, 545, 680, {
       width: '200px',
       height: '500px',
       align: 'right'
     })
 
   doc
-    .fontSize(14)
     .fillColor('#000')
     .text('Ing. Ricardo Lazos', 55, 745, {
       width: '100px',
     })
 
   doc
-    .fontSize(12)
     .fillColor('#000')
     .text('Estos precios son antes de IVA y en pesos mexicanos', 250, 710, {
       width: '100px',
@@ -479,7 +473,6 @@ exports.createPDF = async (cliente, cotizacion, detalle) => {
     })
 
   doc
-    .fontSize(10)
     .fillColor('#000')
     .text('Condiciones de pago: 50% de anticipo y el resto a contra entrega del pedido.', 250, 730, {
       width: '100px',
@@ -488,7 +481,6 @@ exports.createPDF = async (cliente, cotizacion, detalle) => {
 
   doc
     .lineWidth(.5)
-    .fontSize(9)
     .fillColor('#545454')
     .text('RFC: NUCC860525PZ1 | CLAUDIA NUÑEZ CONTRERAS | FERNANDO MAYO 15103-8, CHIHUAHUA 2000 | CP 31136 | CHIHUAHUA CHIH.', 30, 780, {
       width: '600',

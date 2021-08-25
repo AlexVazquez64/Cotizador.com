@@ -3,36 +3,40 @@ module.exports = (sequelize, Sequelize) => {
     id: {
       primaryKey: true,
       type: Sequelize.INTEGER,
-      autoIncrement: true
+      autoIncrement: true,
     },
     folio: {
       type: Sequelize.INTEGER,
       allowNull: false,
-      unique: true
+      unique: true,
     },
     cliente_id: {
       type: Sequelize.INTEGER,
       references: {
-        // This is a reference to another model
+        // Este es el nombre del modelo al que hace referencia
         model: 'Clientes',
    
-        // This is the column name of the referenced model
+        // Esta es la columna que hace referencia al modelo
         key: 'id',
       },
       allowNull: false,
       onDelete: 'CASCADE',
     },
     cliente_nombre: {
-      type: Sequelize.STRING
+      type: Sequelize.STRING,
+      allowNull: false,
     },
     descripcion: {
-      type: Sequelize.STRING(1234)
+      type: Sequelize.STRING(1234),
     },
     fecha_validez: {
       type: Sequelize.DATEONLY,
       allowNull: false,
     },
-
+    valido_hasta: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
+    },
   });
 
   return Cotizacion;

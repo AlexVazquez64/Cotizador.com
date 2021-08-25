@@ -15,6 +15,7 @@ exports.create = async( req, res = response ) => {
 
   // Create a Detalle
   const data_detalle = {
+    id,
     cotizacion_id,
     articulo_id,
     cantidad,
@@ -23,25 +24,13 @@ exports.create = async( req, res = response ) => {
   } = req.body;
 
   try {
-    // let detalle = await Detalles.findOne({
-    //   where: {
-    //     email
-    //   }
-    // });
-
-    // if ( detalle ) {
-    //   return res.status( 400 ).json({
-    //     ok: false,
-    //     message: 'Ya existe un Detalle con ese correo!',
-    //   });
-    // }
 
     Detalle = new Detalles( req.body );
 
-    console.log('Detalle del req.body')
-    console.log(Detalle)
+    // console.log('Detalle del req.body')
+    // console.log(Detalle)
 
-    // Save Detalle in the database
+    // Guardar Detalle en la BD
     const detalleResp = await Detalles.create( data_detalle );
 
     console.log(detalleResp)

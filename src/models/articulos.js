@@ -24,10 +24,10 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.STRING
     },
     precio_unitario: {
-      type: Sequelize.DOUBLE
+      type: Sequelize.DECIMAL(10, 2)
     },
     costo: {
-      type: Sequelize.DOUBLE
+      type: Sequelize.DECIMAL(10, 2)
     },
   });
 
